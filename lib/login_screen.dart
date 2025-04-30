@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:inspection_app_mobile/services/login_service.dart';
 import 'bottom_navigation_bar.dart';
 import 'common_widgets/custom_toast_message.dart';
@@ -17,7 +17,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool isLoading = false;
-  String _errorMessage = '';
   bool _obscureText = true;
   Map loginDetails = {};
   Future<void> _login() async{
@@ -46,7 +45,7 @@ setState(() {
       );
     } catch (e) {
       CustomToaster.errorToasterMessage(e.toString());
-      _errorMessage = 'Login failed: $e';
+     // _errorMessage = 'Login failed: $e';
 
     }
 setState(() {
