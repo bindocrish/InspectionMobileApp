@@ -35,7 +35,6 @@ setState(() {
       final  response = await LoginService.loginPostMethod(
           body
       );
-      print("Bindo");
       loginDetails = response;
       CustomToaster.successToasterMsg("Login Successful");
       if(!mounted)return;
