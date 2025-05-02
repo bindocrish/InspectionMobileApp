@@ -9,8 +9,8 @@ class CustomToaster {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 3,
-        backgroundColor: Colors.red,
-        textColor:  Colors.yellow,
+        backgroundColor: Colors.green,
+        textColor:  Colors.white,
         fontSize: 16.0);
   }
 
@@ -21,9 +21,9 @@ class CustomToaster {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP_RIGHT,
         timeInSecForIosWeb: 1,
-        backgroundColor:  Colors.red,
+        backgroundColor:  Colors.red.shade600,
 
-        textColor: Colors.black,
+        textColor: Colors.white,
         fontSize: 16.0);
   }
 }

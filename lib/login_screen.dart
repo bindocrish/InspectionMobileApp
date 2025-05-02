@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:inspection_app_mobile/services/login_service.dart';
 import 'bottom_navigation_bar.dart';
+import 'common_widgets/appconstant.dart';
 import 'common_widgets/custom_toast_message.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,43 +15,41 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   bool _obscureText = true;
   Map loginDetails = {};
-  Future<void> _login() async{
-setState(() {
-  isLoading = true;
-});
-    final username = _usernameController.text;
-    final password = _passwordController.text;
 
-    Map<String,dynamic> body = {
-      "mobile_number":username.toLowerCase(),
-      "password": password.toString()
-    };
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      final username = _usernameController.text;
+      final password = _passwordController.text;
 
-    try {
-      final  response = await LoginService.loginPostMethod(
-          body
-      );
-      loginDetails = response;
-      CustomToaster.successToasterMsg("Login Successful");
-      if(!mounted)return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) =>  BottomNavigationBarScreen()),
-      );
-    } catch (e) {
-      CustomToaster.errorToasterMessage(e.toString());
-     // _errorMessage = 'Login failed: $e';
+      Map<String, dynamic> body = {
+        "mobile_number": username.toLowerCase(),
+        "password": password.toString(),
+      };
 
+      try {
+        final response = await LoginService.loginPostMethod(body);
+        loginDetails = response;
+        CustomToaster.successToasterMsg("Login Successful");
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BottomNavigationBarScreen()),
+        );
+      } catch (e) {
+        CustomToaster.errorToasterMessage(e.toString());
+      }
+      setState(() {
+        isLoading = false;
+      });
     }
-setState(() {
-isLoading = false;
-});
   }
-
 
   void _togglePasswordView() {
     setState(() {
@@ -62,95 +60,157 @@ isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade100,
-      appBar: AppBar(
-        backgroundColor: Colors.blue.shade100,
-        title: const Text('Inspection App'),
-      ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(),
       body: Container(
-       alignment: Alignment.center,
+        margin: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          gradient: LinearGradient(
-            colors: [Colors.white, Colors.blue.shade100],
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
-                  borderRadius: BorderRadius.circular(88),
-                ),
-                child: Container(
-                    width: 80,
-                    height: 80,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset('assets/images/logo.jpg',height: 50,fit: BoxFit.cover,)),
-              ),
-              const SizedBox(height: 20),
-              buildTextField(controller: _usernameController, name: "Username"),
-              const SizedBox(height: 20),
-              buildTextField(
-                controller: _passwordController,
-                name: "Password",
-                passwordHide: true,
-              ),
-              const SizedBox(height: 20),
-              InkWell(
-                onTap: _login,
-                child: isLoading ? CircularProgressIndicator() : Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue.shade100),
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.blue.shade200,
-                  ),
-                  child: Center(child: Text("Login",style: TextStyle(color: Colors.white),)),
-                ),
-              ),
+          borderRadius: BorderRadius.circular(8),
+           color: Colors.white,
 
-              // if (_errorMessage.isNotEmpty)
-              //   Padding(
-              //     padding: const EdgeInsets.only(top: 10),
-              //     child: Text(
-              //         _errorMessage,
-              //         style: const TextStyle(color: Colors.red)
-              //     ),
-              //   ),
-            ],
+        ),
+        child: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Image.asset(
+                  'assets/images/logo.jpg',
+                  height: 80,
+                  fit: BoxFit.cover,
+                ),
+                Text(
+                  "INSPECTION APP",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 40),
+                Column(
+                  children: [
+                    Text(
+                      "Welcome Back",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Login into your account",
+                      style: TextStyle(fontSize: 15, color: Colors.black38),
+                    ),
+                    SizedBox(height: 30),
+                    buildTextField(
+                      controller: _usernameController,
+                      name: "Mobile Number",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter username';
+                        } else if (value.length < 8) {
+                          return 'User must be at least 8 characters';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    buildTextField(
+                      controller: _passwordController,
+                      name: "Password",
+                      passwordHide: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter password';
+                        } else if (value.length < 8) {
+                          return 'Password must be at least 8 characters';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 30,
+                          height: 20,
+                          child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Switch(value: false, onChanged: (val) {}),
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Text("Remember me"),
+                        Spacer(),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Forgot Password ?",
+                            style: TextStyle(color: AppColors.primary),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    InkWell(
+                      onTap: _login,
+                      child:
+                          isLoading
+                              ? CircularProgressIndicator()
+                              : Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.blue.shade100,
+                                  ),
+                                  borderRadius: BorderRadius.circular(33),
+                                  color: AppColors.primary,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Log In",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  TextField buildTextField({
+  Widget buildTextField({
     TextEditingController? controller,
     String? name,
     String? hint,
+    FormFieldValidator<String>? validator,
     bool? passwordHide = false,
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
-      obscureText:passwordHide! ? _obscureText : false,
+      obscureText: passwordHide! ? _obscureText : false,
       decoration: InputDecoration(
         filled: true,
-        suffixIcon:passwordHide ?  IconButton(
-          icon: Icon(
-            _obscureText ? Icons.visibility_off : Icons.visibility,size: 15,
-          ),
-          onPressed: _togglePasswordView,
-        ) : SizedBox(),
+        suffixIcon:
+            passwordHide
+                ? IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    size: 15,
+                  ),
+                  onPressed: _togglePasswordView,
+                )
+                : SizedBox(),
         fillColor: Color(0xFFF2F2F2),
 
         focusedBorder: OutlineInputBorder(
@@ -166,7 +226,7 @@ isLoading = false;
 
         labelText: name,
       ),
+      validator: validator,
     );
   }
-
 }
