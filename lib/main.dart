@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:inspection_app_mobile/services/common_services/auth_service.dart';
+import 'package:provider/provider.dart';
+import 'screens/bottom_navigation_bar.dart';
+import 'screens/login_screen.dart';
 
-import 'login_screen.dart';
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
-  runApp(const MyApp());
+  final authProvider = AuthProvider();
+  await authProvider.loadToken();
+
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
+
+        ],child: MyApp(),
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,6 +26,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = Provider.of<AuthProvider>(context).isLoggedIn;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -19,7 +34,7 @@ class MyApp extends StatelessWidget {
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const LoginPage(),
+      home: isLoggedIn ? BottomNavigationBarScreen() : LoginPage(),
     );
   }
 }

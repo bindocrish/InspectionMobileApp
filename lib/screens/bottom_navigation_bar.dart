@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:inspection_app_mobile/screens/profile_tab_screen.dart';
 import 'home_screen.dart';
 import 'logout_screen.dart';
 
@@ -37,15 +38,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   final List<Widget> _pages = [
     HomePage(),
-    Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(color: Colors.white, child: Text("Profile screen")),
-        ],
-      ),
-    ),
+    ProfileTabScreen(),
     Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,6 +53,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         items: <Widget>[
@@ -68,7 +62,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
           Icon(Icons.settings, size: 25),
           Icon(Icons.logout, size: 25),
         ],
-        color: Colors.blue.shade300,
+        color: Colors.orange.shade300,
         buttonBackgroundColor: Colors.white,
         backgroundColor: Colors.white,
         animationCurve: Curves.easeInOut,
@@ -80,7 +74,9 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         },
         letIndexChange: (index) => true,
       ),
-      appBar: AppBar(title: Text(getPlatformInfo())),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(getPlatformInfo())),
       body: _pages[_selectedIndex],
     );
   }

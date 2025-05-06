@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'login_screen.dart';
 
 class LogoutScreen extends StatefulWidget {
@@ -22,9 +21,15 @@ class _LogoutScreenState extends State<LogoutScreen> {
             child: Column(
               children: [
                 Text(" Are you want to Logout"),
-                ElevatedButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
-                }, child: Text("Logout"))
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: Text("Logout"),
+                ),
               ],
             ),
           ),

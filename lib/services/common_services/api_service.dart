@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class ApiResponse<T> {
@@ -16,11 +17,27 @@ class ApiResponse<T> {
 }
 
 class ApiService {
-
-  Future<ApiResponse<T>> getData<T>(String endpoint) async {
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  Future<ApiResponse<T>> getData<T>(String endpoint,{Map<String, String>? queryParams,Map<String, String>? headers}) async {
     try {
-      final response = await http.get(Uri.parse(endpoint));
+      Uri uri = Uri.parse(endpoint);
+      if (queryParams != null && queryParams.isNotEmpty) {
+        uri = uri.replace(queryParameters: queryParams);
+      }
+      final token = await _storage.read(key: 'auth_token');
+      final defaultHeaders = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        if (token != null)    'Authorization': token,
+      };
+      final combinedHeaders = {
+        ...defaultHeaders,
+        if (headers != null) ...headers,
+      };
+
+      final response = await http.get(uri, headers: combinedHeaders);
       final body = json.decode(response.body);
+
       return ApiResponse<T>(
         body: body,
         statusCode: response.statusCode,

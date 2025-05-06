@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:inspection_app_mobile/services/common_services/auth_service.dart';
 import 'package:inspection_app_mobile/services/login_service.dart';
+import 'package:provider/provider.dart';
 import 'bottom_navigation_bar.dart';
-import 'common_widgets/appconstant.dart';
-import 'common_widgets/custom_toast_message.dart';
+import '../common_widgets/appconstant.dart';
+import '../common_widgets/custom_toast_message.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -36,6 +37,14 @@ class _LoginPageState extends State<LoginPage> {
       try {
         final response = await LoginService.loginPostMethod(body);
         loginDetails = response;
+        final data = response['data'];
+        final token = data['token'].toString();
+        final role = data['user_type'].toString();
+print(role);
+        if (!mounted) return;
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        await authProvider.saveToken(token,role);
+
         CustomToaster.successToasterMsg("Login Successful");
         if (!mounted) return;
         Navigator.pushReplacement(
