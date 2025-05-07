@@ -48,6 +48,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         ],
       ),
     ),
+    Container(height: 500,width: 500,color: Colors.blue),
     LogoutScreen(),
   ];
 
@@ -58,10 +59,12 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       bottomNavigationBar: CurvedNavigationBar(
         items: <Widget>[
           Icon(Icons.home, size: 25),
-          Icon(Icons.supervised_user_circle, size: 25),
-          Icon(Icons.settings, size: 25),
+          Icon(Icons.settings_applications_sharp, size: 25),
+          Icon(Icons.add_card_sharp, size: 25),
+          Icon(Icons.fact_check_rounded, size: 25),
           Icon(Icons.logout, size: 25),
         ],
+
         color: Colors.orange.shade300,
         buttonBackgroundColor: Colors.white,
         backgroundColor: Colors.white,

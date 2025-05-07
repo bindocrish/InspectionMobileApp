@@ -148,6 +148,16 @@ class CustomStringHelper {
       return opVal;
     }
   }
+  String onlyTimeFormat(dynamic date,
+      {String opVal = "-", String format = "hh:mm a"}) {
+    String dateVal = stringNullCheck(date, opVal: "");
+    if (dateVal != "") {
+      DateTime formatDate = DateTime.parse(date.toString());
+      return DateFormat(format).format(formatDate);
+    } else {
+      return opVal;
+    }
+  }
 
   stringToDateTime(dynamic date, {DateTime? optionalDate}) {
     String dateVal = stringNullCheck(date, opVal: "");

@@ -220,37 +220,42 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          Padding(
-            padding: const EdgeInsets.all(12.0),
+          Container(
+            
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: Colors.orange.shade400,
+              borderRadius: BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8))
+            ),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
-                    order.workOrderNumber,
-                    style: TextStyle(color: Colors.orange.shade400),
+                    customStringHelper.stringNullCheck(order.workOrderNumber, opVal: "-"),
+                    style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(5),
+
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Colors.orange.shade400,
+                    color: Colors.white,
                   ),
                   child: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                    size: 10,
+                    Icons.arrow_circle_right_outlined,
+                    color: Colors.orange,
+                    size: 18,
                   ),
                 ),
               ],
             ),
           ),
-          Divider(color: Colors.orange.shade400),
+         // Divider(color: Colors.orange.shade400),
           const SizedBox(height: 8),
           inspectionRowWidget(
             name: "Client Name",
-            data: order.header.client.customerFullname,
+            data:  order.header.client.customerFullname,
           ),
           inspectionRowWidget(
             name: "Contact Number",

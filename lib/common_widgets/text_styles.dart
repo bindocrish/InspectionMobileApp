@@ -6,6 +6,8 @@ class AppTextStyles{
 
   static const TextStyle headline3 = TextStyle(
       fontSize: 14.5, fontWeight: FontWeight.w400, color: Colors.black54);
+  static const TextStyle headline4 = TextStyle(
+      fontSize: 14.5, fontWeight: FontWeight.bold, color: Colors.white);
 
   static const TextStyle cardText1 = TextStyle(
     fontSize: 13.0,
