@@ -35,14 +35,14 @@ class AppTextDecoration {
               fontSize: 14.5,
               fontWeight: FontWeight.w400),
           enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Color(0xffDEDEDE)),
+              borderSide:  BorderSide(color: Colors.orange.shade200),
               borderRadius: BorderRadius.circular(5.0)),
           disabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Color(0xffDEDEDE)),
+              borderSide:  BorderSide(color: Color(0xffDEDEDE)),
               borderRadius: BorderRadius.circular(5.0)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
-              borderSide: const BorderSide(color: Color(0xff006BD6))),
+              borderSide:  BorderSide(color: Colors.orange.shade200)),
           errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide: const BorderSide(color: Color(0xffDEDEDE))),

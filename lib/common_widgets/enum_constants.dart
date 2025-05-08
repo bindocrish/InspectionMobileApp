@@ -15,3 +15,14 @@ enum ControllerTypes {
   address,
   tamil
 }
+
+enum DropdownDecoration {
+  normal,
+  taxPrecent,
+  filter,
+  tranasctionFillter,
+  borderNone,
+  filled,
+  outline,
+  quotesDropdown,
+}

@@ -34,6 +34,7 @@ class ApiService {
         ...defaultHeaders,
         if (headers != null) ...headers,
       };
+      print(uri);
 
       final response = await http.get(uri, headers: combinedHeaders);
       final body = json.decode(response.body);
@@ -45,6 +46,7 @@ class ApiService {
         success: response.statusCode >= 200 && response.statusCode < 300,
       );
     } catch (e) {
+      print("apiService$e");
       return ApiResponse<T>(
         body: null,
         statusCode: 500,

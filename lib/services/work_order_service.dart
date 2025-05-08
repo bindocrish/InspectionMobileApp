@@ -21,15 +21,12 @@ class InspectionDetailsService {
     final response = await ApiService().getData(
       AppConfig.workOrderList,
       queryParams: queryParams,
-
     );
 
     if (response.success) {
-
+      print("Response True${response.success}");
       return inspectionDetailsFromJson(jsonEncode(response.body));
-
     } else {
-
       throw Exception('GET request failed: ${response.statusCode}');
     }
   }

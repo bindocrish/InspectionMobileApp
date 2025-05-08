@@ -44,11 +44,12 @@ class _HomePageState extends State<HomePage> {
         for (var a in inspectionDetails!.data.data) {
           clientDetails = a.header.client;
         }
-
+        print(inspectionDetailsList.length);
         isLoading = false;
       });
     } catch (e) {
       setState(() {
+        print("checcking$e");
         error = e.toString();
         isLoading = false;
       });
@@ -59,7 +60,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     return isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: CircularProgressIndicator(color: Colors.orange,))
         : inspectionDetailsList.isEmpty
         ? customWidget.getNoFoundWidget()
         : SingleChildScrollView(
@@ -122,6 +123,14 @@ class _HomePageState extends State<HomePage> {
                       flex: 1,
                       child: dateTextField(
                         dateFilterController,
+                        inputDecoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide: const BorderSide(
+                              color: Color(0xffDEDEDE),
+                            ),
+                          )
+                        ),
                         isValidate: false,
                         "Upcoming Inspections",
                         () {

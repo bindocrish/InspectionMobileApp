@@ -542,7 +542,7 @@ Widget dateTextField(TextEditingController controller, String labelText,
                                 borderSide:  BorderSide(
                                   color:Colors.orange.shade200,
                                 ),
-                                borderRadius: BorderRadius.circular(30.0),
+                                borderRadius: BorderRadius.circular(5.0),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
